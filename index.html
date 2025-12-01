@@ -21,7 +21,6 @@
             background-color: var(--bg);
             color: var(--text);
             margin: 0;
-            /* المسافة العلوية كما طلبت سابقاً (ليست ملاصقة) */
             padding: 30px 20px 20px 20px;
             display: flex;
             justify-content: center;
@@ -137,7 +136,6 @@
             line-height: 34px; 
         }
 
-        /* --- الزر المتوازن --- */
         .action-btn {
             width: 100%;
             background: #000;
@@ -148,40 +146,56 @@
             font-weight: 700;
             border-radius: 50px; 
             cursor: pointer;
-            
-            /* تم تقليل المسافة فوق الزر بنصف سم كما طلبت */
             margin-top: 20.5px; 
-            
-            /* رفع الزر عن الحافة السفلية بمقدار نصف سم */
             margin-bottom: 50px; 
             transition: opacity 0.2s;
         }
         .action-btn:active { opacity: 0.8; }
 
+        /* --- تعديلات صندوق النتيجة لضمان التناسق التام --- */
         .result-panel {
             margin-top: 20px;
-            padding: 25px;
+            padding: 30px 25px; /* زيادة البادينغ الداخلي قليلاً */
             background: #f0f9ff;
             border-radius: 24px;
             text-align: center;
             display: none;
             border: 1px solid #bae6fd;
-            margin-bottom: 50px; 
+            margin-bottom: 50px;
+            
+            /* استخدام فليكس لضمان توزيع المسافات بدقة */
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            /* هذه الخاصية تضمن وجود مسافة موحدة (20 بكسل) بين كل عنصر والآخر */
+            gap: 15px; 
         }
 
+        /* النصوص العلوية والسفلية */
+        .result-label, .result-details {
+            font-size: 0.9rem;
+            color: #475569;
+            margin: 0; /* إزالة الهوامش وترك التحكم للـ gap */
+            line-height: 1.6;
+        }
+
+        /* الرقم الكبير */
         .speed-display {
             font-size: 2.5rem;
             font-weight: 800;
             color: var(--accent);
-            margin: 10px 0;
+            margin: 0; /* إزالة الهوامش وترك التحكم للـ gap */
+            line-height: 1.1; /* ضبط ارتفاع السطر */
             direction: ltr;
         }
 
         .rec-text {
             font-size: 0.95rem;
             color: #334155;
-            margin-top: 5px;
-            line-height: 1.5;
+            margin: 0;
+            line-height: 1.6;
+            margin-top: 5px; /* مسافة إضافية بسيطة للتوصية */
         }
     </style>
 </head>
@@ -196,7 +210,13 @@
         
         <div class="device-row">
             <div class="device-info">
-                <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect></svg></div>
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="15" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="18" x2="12" y2="21"></line>
+                    </svg>
+                </div>
                 <span class="device-name">تلفزيون 4K</span>
             </div>
             <div class="stepper">
@@ -208,7 +228,13 @@
 
         <div class="device-row">
             <div class="device-info">
-                <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect></svg></div>
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="15" rx="2" ry="2"></rect>
+                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                        <line x1="12" y1="18" x2="12" y2="21"></line>
+                    </svg>
+                </div>
                 <span class="device-name">تلفزيون FHD</span>
             </div>
             <div class="stepper">
@@ -222,7 +248,12 @@
 
         <div class="device-row">
             <div class="device-info">
-                <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect></svg></div>
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
                 <span class="device-name">هاتف رائد QHD</span>
             </div>
             <div class="stepper">
@@ -234,7 +265,12 @@
 
         <div class="device-row">
             <div class="device-info">
-                <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect></svg></div>
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                </div>
                 <span class="device-name">هاتف عادي FHD</span>
             </div>
             <div class="stepper">
@@ -248,7 +284,12 @@
 
         <div class="device-row">
             <div class="device-info">
-                <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect></svg></div>
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="4" width="18" height="12" rx="2" ry="2"></rect>
+                        <line x1="2" y1="20" x2="22" y2="20"></line>
+                    </svg>
+                </div>
                 <span class="device-name">لابتوب</span>
             </div>
             <div class="stepper">
@@ -284,11 +325,12 @@
 
         <button class="action-btn" onclick="calculateSpeed()">احسب السرعة</button>
 
-        <div id="result" class="result-panel">
-            <div style="font-size: 0.9rem; color: #475569; margin-bottom: 5px;">أنت بحاجة لسرعة لا تقل عن:</div>
+        <!-- تم تحديث هيكل النتائج ليعمل بـ Flexbox -->
+        <div id="result" class="result-panel"> <!-- تمت إضافة style="display:none" عبر CSS، ويتم تغييره عبر JS -->
+            <div class="result-label">أنت بحاجة لسرعة لا تقل عن:</div>
             <div class="speed-display" id="speedOutput">0 Mbps</div>
-            <div style="font-size: 0.9rem; color: #475569; margin-bottom: 5px;" id="fullSpeedText"></div>
-            <div id="recommendationText" class="rec-text"></div>
+            <div class="result-details" id="fullSpeedText"></div>
+            <div class="rec-text" id="recommendationText"></div>
         </div>
         
         <div style="height: 50px;"></div>
@@ -328,7 +370,9 @@
             let displaySpeed = Math.ceil(total * 0.7);
 
             let resBox = document.getElementById('result');
-            resBox.style.display = 'block';
+            
+            // يجب تعيين العرض إلى flex بدلاً من block لأننا استخدمنا display:flex في الـ CSS
+            resBox.style.display = 'flex';
 
             // عرض الرقم الكبير
             document.getElementById('speedOutput').innerText = displaySpeed + " Mbps";
@@ -336,7 +380,7 @@
             // عرض سطر السرعة الكاملة
             document.getElementById('fullSpeedText').innerHTML = "في حالة استخدام كل الأجهزة معاً تحتاج: <span dir='ltr'>" + total + " Mbps</span>";
 
-            // نصوص التوصية (تم استبدال 'باقة' بـ 'سرعة')
+            // نصوص التوصية
             let rec = "";
             if (total <= 100) rec = "سرعة 100 ميجابت تغطي احتياجك.";
             else if (total <= 200) rec = "أنسب خيار هو سرعة 200 ميجابت.";
@@ -351,5 +395,4 @@
         }
     </script>
 </body>
-
 </html>
