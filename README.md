@@ -1,2 +1,2 @@
-# Internet-calculator
+# Internet-Calculator
 أداة تساعد الشخص في معرفة سرعة الإنترنت المناسبة له.
