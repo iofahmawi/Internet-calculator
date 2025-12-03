@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حاسبة سرعة الإنترنت</title>
+    <title>حاسبة السرعة</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -106,13 +106,12 @@
             color: #374151;
         }
 
-        /* --- الكبسولة (الضبط الرأسي الدقيق) --- */
         .stepper {
             background-color: transparent;
             border: 1px solid var(--border-color);
             border-radius: 50px;
             display: flex;
-            align-items: flex-start; /* تغيير لضمان تحكمنا الكامل بالبادينغ */
+            align-items: flex-start;
             justify-content: space-between;
             width: 100px; 
             height: 32px; 
@@ -122,23 +121,19 @@
 
         .stepper-btn {
             width: 32px;
-            height: 100%; /* ملء الارتفاع */
+            height: 100%;
             background: transparent;
             border: none;
             box-shadow: none;
             color: var(--accent-color);
             display: flex;
-            align-items: center; /* توسيط تلقائي */
+            align-items: center;
             justify-content: center;
-            
             font-size: 1.1rem; 
             font-weight: 500;
-            
             cursor: pointer;
             flex-shrink: 0;
             line-height: 1;
-            
-            /* --- ضبط دقيق للأزرار: دفع الرموز للأسفل بيكسل واحد إضافي --- */
             padding: 0;
             padding-top: 2px; 
         }
@@ -154,23 +149,17 @@
             background: transparent;
             border: none;
             text-align: center;
-            
             font-size: 1rem;
             font-weight: 700;
             color: #1e293b;
             margin: 0;
             outline: none;
             font-family: 'Tajawal', sans-serif;
-            
-            /* --- الضبط الرأسي الحقيقي (Pixel Perfect) --- */
-            /* إلغاء أي بادينغ افتراضي */
             padding: 0;
-            /* دفع الرقم للأسفل بقوة لتعويض ارتفاع الخط */
             padding-top: 6px; 
             line-height: normal;
         }
 
-        /* --- الزر الرئيسي --- */
         .action-btn {
             display: block; 
             width: 70%;
@@ -227,7 +216,6 @@
             direction: ltr;
         }
 
-        /* --- الكبسولة الصغيرة (نتيجة الاستهلاك) --- */
         .result-details {
             background: #ffffff;
             border-radius: 50px;
@@ -236,14 +224,13 @@
             color: var(--text-secondary);
             display: inline-flex;
             justify-content: center;
-            
             padding-top: 9px;
             padding-bottom: 5px; 
             padding-left: 16px;
             padding-right: 16px;
-            
             line-height: normal; 
             gap: 5px;
+            white-space: nowrap; 
         }
 
         .result-details b {
@@ -388,8 +375,11 @@
 
         <div id="result" class="result-panel">
             <div class="result-label">الحد الأدنى للسرعة:</div>
+            
             <div class="speed-display" id="speedOutput">0 Mbps</div>
+            
             <div class="result-details" id="fullSpeedText"></div>
+            
             <div class="rec-text" id="recommendationText"></div>
         </div>
         
@@ -407,6 +397,16 @@
         }
 
         function calculateSpeed() {
+            const SPEED_RATES = {
+                tv4k: 40,         
+                tvFhd: 15,        
+                mobileHigh: 25,   
+                mobileNormal: 12,  
+                laptops: 10,       
+                consoles: 10,      
+                cloudGaming: 30   
+            };
+
             let tv4k = parseInt(document.getElementById('tv4k').value) || 0;
             let tvFhd = parseInt(document.getElementById('tvFhd').value) || 0;
             let mobileHigh = parseInt(document.getElementById('mobileHigh').value) || 0;
@@ -415,31 +415,50 @@
             let consoles = parseInt(document.getElementById('consoles').value) || 0;
             let cloudGaming = parseInt(document.getElementById('cloudGaming').value) || 0;
 
-            let total = (tv4k * 35) + 
-                        (tvFhd * 15) + 
-                        (mobileHigh * 25) + 
-                        (mobileNormal * 10) + 
-                        (laptops * 10) + 
-                        (consoles * 10) + 
-                        (cloudGaming * 30);
+            // 1. الحساب الخام
+            let rawTotal = (tv4k * SPEED_RATES.tv4k) + 
+                           (tvFhd * SPEED_RATES.tvFhd) + 
+                           (mobileHigh * SPEED_RATES.mobileHigh) + 
+                           (mobileNormal * SPEED_RATES.mobileNormal) + 
+                           (laptops * SPEED_RATES.laptops) + 
+                           (consoles * SPEED_RATES.consoles) + 
+                           (cloudGaming * SPEED_RATES.cloudGaming);
 
-            if (total < 30 && total > 0) total = 30;
-
-            let displaySpeed = Math.ceil(total * 0.7);
+            // 2. حساب الذروة
+            let peakTotal = Math.ceil(rawTotal * 1.1);
 
             let resBox = document.getElementById('result');
+            let capsule = document.getElementById('fullSpeedText');
+            
             resBox.style.display = 'flex';
 
-            document.getElementById('speedOutput').innerText = displaySpeed + " Mbps";
-            document.getElementById('fullSpeedText').innerHTML = "الحد الأقصى للسرعة: <b dir='ltr'>" + total + " Mbps</b>";
+            // عرض الرقم الحقيقي الخام
+            document.getElementById('speedOutput').innerText = rawTotal + " Mbps";
+            
+            // الكبسولة تعرض رقم الذروة (إخفاؤها إذا كانت النتيجة صفر)
+            if(rawTotal > 0) {
+                 capsule.style.display = 'inline-flex';
+                 capsule.innerHTML = "ربما تحتاج في أوقات الذروة سرعة <b dir='ltr'>" + peakTotal + " Mbps</b>";
+            } else {
+                 capsule.style.display = 'none';
+                 capsule.innerHTML = "";
+            }
 
+            // النصيحة بناءً على رقم الذروة
             let rec = "";
-            if (total <= 100) rec = "سرعة 100 ميجابت مناسبة جداً لك.";
-            else if (total <= 200) rec = "ننصحك بسرعة 200 ميجابت لتجربة مستقرة.";
-            else if (total <= 300) rec = "تحتاج سرعة 300 ميجابت لضمان الجودة.";
-            else rec = "استهلاكك مرتفع! ننصحك بـ 500 ميجابت أو أعلى.";
+            if (rawTotal === 0) {
+                rec = "يرجى اختيار الأجهزة أولاً.";
+            } else if (peakTotal <= 100) {
+                rec = "ننصحك بالاشتراك في سرعة <b>100 ميجا</b>.";
+            } else if (peakTotal <= 200) {
+                rec = "ننصحك بالاشتراك في سرعة <b>200 ميجا</b>.";
+            } else if (peakTotal <= 300) {
+                rec = "ننصحك بالاشتراك في سرعة <b>300 ميجا</b>.";
+            } else {
+                rec = "ننصحك بالاشتراك في سرعة <b>500 ميجا</b> أو أعلى.";
+            }
 
-            document.getElementById('recommendationText').innerText = rec;
+            document.getElementById('recommendationText').innerHTML = rec;
             
             setTimeout(() => {
                 resBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
